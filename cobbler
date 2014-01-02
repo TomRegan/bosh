@@ -1,0 +1,38 @@
+#! /usr/bin/env bash
+# Copyright 2013 Tom Regan
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+NAME=cobbler
+
+[[ -z $COBBLER_HOME ]] && {
+    echo -e "$NAME: set COBBLER_HOME to the cobbler install location\n\texport COBBLER_HOME=..."
+    exit 1
+}
+
+require() {
+    source $COBBLER_HOME/core/require/$1.sh
+}
+install() {
+    source $COBBLER_HOME/install/$1.sh
+}
+export -f require install
+
+if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
+    $COBBLER_HOME/run/$1.sh
+elif [[ -f $COBBLER_HOME/run/$1 ]]; then
+    $COBBLER_HOME/run/$1
+else
+    echo "No script found with the name $1"
+fi
