@@ -21,13 +21,24 @@ NAME=cobbler
     exit 1
 }
 
+trap handle_error ERR
+handle_error() {
+    echo -e "[debug]\terror at line $(caller)"
+    printf "\t%s\n" ${FUNCNAME[@]}
+}
 require() {
-    source $COBBLER_HOME/core/require/$1.sh
+    local call=$1; shift
+    source $COBBLER_HOME/core/require/$call.sh $@
 }
 install() {
-    source $COBBLER_HOME/install/$1.sh
+    local call=$1; shift
+    source $COBBLER_HOME/install/$call.sh $@
 }
-export -f require install
+abstract() {
+    local call=$1; shift
+    source $COBBLER_HOME/core/abstract/$call.sh $@
+}
+export -f require install abstract
 
 if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
     $COBBLER_HOME/run/$1.sh

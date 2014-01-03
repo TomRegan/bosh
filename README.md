@@ -21,7 +21,7 @@ A provisioning tool that uses bash
 
 ### Install
 
-* Clone or unpack the files from the [cobble repository](https://github.com/TomRegan/cobbler)
+* Clone or unpack the files from the [cobbler repository](https://github.com/TomRegan/cobbler)
 * Set `COBBLER_HOME` to the base directory of the cobbler install
 
 ### Run
