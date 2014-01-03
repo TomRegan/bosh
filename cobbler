@@ -21,11 +21,6 @@ NAME=cobbler
     exit 1
 }
 
-trap handle_error ERR
-handle_error() {
-    echo -e "[debug]\terror at line $(caller)"
-    printf "\t%s\n" ${FUNCNAME[@]}
-}
 require() {
     local call=$1; shift
     source $COBBLER_HOME/core/require/$call.sh $@
