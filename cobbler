@@ -29,11 +29,11 @@ install() {
     local call=$1; shift
     source $COBBLER_HOME/install/$call.sh $@
 }
-abstract() {
+package() {
     local call=$1; shift
-    source $COBBLER_HOME/core/abstract/$call.sh $@
+    source $COBBLER_HOME/core/package/$call.sh $@
 }
-export -f require install abstract
+export -f require install package
 
 if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
     $COBBLER_HOME/run/$1.sh
