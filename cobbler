@@ -38,8 +38,7 @@ export -f require install package
 source $COBBLER_HOME/core/out.sh
 source $COBBLER_HOME/core/environment.sh
 
-info "Cobbler on $OS"
-warn "Cobbler is currently in development"
+warn "Cobbler is currently under development"
 if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
     $COBBLER_HOME/run/$1.sh
 elif [[ -f $COBBLER_HOME/run/$1 ]]; then
