@@ -8,4 +8,7 @@ warn() {
 fail() {
     echo "[${COLOUR_RED}fail${COLOUR_RESET}] $@"
 }
-export -f info warn fail
+success() {
+    echo "[${COLOUR_GREEN} ok ${COLOUR_RESET}] $@"
+}
+export -f info warn fail success

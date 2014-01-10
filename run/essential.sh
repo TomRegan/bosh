@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-install emacs
+install essential

@@ -8,4 +8,5 @@
     }
 } || {
     fail "Package installation is not supported on $OS"
+    exit
 }
