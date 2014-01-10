@@ -1,7 +1,10 @@
 #! /usr/bin/env bash
 
 [[ $(gem list "$1" -i) != true ]] && {
-    gem install "$1"
+    info "Installing $1"
+    gem install "$1" --no-ri --no-rdoc && success "Installed $1" || {
+	fail "Installation of $1 failed"
+    }
 } || {
     info "$1 is already installed"
 }
