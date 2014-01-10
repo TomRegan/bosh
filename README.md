@@ -20,7 +20,7 @@ Where `script` is the name of a script in the `run/` directory.
 Once `cobbler` is installed on your workstation, you can deploy it and run
 scripts on VMs using the `-d` (deploy) and `-r` (remote) options.
 
-    ./cobbler -d|--deploy [user@]<hostname
+    ./cobbler -d|--deploy [user@]<hostname>
 
     ./cobbler -r|--remote [user@]<hostname> <script>
 
