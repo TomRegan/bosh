@@ -1,6 +1,8 @@
 # Cobbler
 
-A provisioning tool that uses bash
+A provisioning tool that uses bash.
+
+![cobbler](http://i.imgur.com/2E5GqCR.png)
 
 ## Usage / Structure
 
@@ -17,10 +19,8 @@ Where `script` is the name of a script in the `run/` directory.
 
 ### Remote Install
 
-Once `cobbler` is installed on your workstation, you can deploy it and run
-scripts on VMs using the `-d` (deploy) and `-r` (remote) options.
-
-    ./cobbler -d|--deploy [user@]<hostname>
+Once cobbler is installed on your workstation, you can deploy it and run
+scripts on remote hosts using the `-r` (`--remote`) option.
 
     ./cobbler -r|--remote [user@]<hostname> <script>
 

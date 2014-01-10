@@ -40,19 +40,14 @@ source $COBBLER_HOME/core/environment.sh
 
 ARGS=$@
 for ARG in $ARGS; do
-    [[ $ARG == '-d' || $ARG == '--deploy' ]] && {
-	ARGS="${ARGS/-d/}";ARGS="${ARGS/--deploy/}"
-	DEPLOY=true
-    }
     [[ $ARG == '-r' || $ARG == '--remote' ]] && {
 	ARGS="${ARGS/-r/}";ARGS="${ARGS/--remote/}"
 	REMOTE=true
     }
 done
-[[ -z $REMOTE && -z $DEPLOY ]] || {
-    [[ $DEPLOY == true ]] && $COBBLER_HOME/core/deploy.sh $ARGS
+[[ -z $REMOTE ]] || {
     [[ $REMOTE == true ]] && $COBBLER_HOME/core/remote.sh $ARGS
-    exit
+    exit 0
 }
 
 warn "Cobbler is currently under development"
