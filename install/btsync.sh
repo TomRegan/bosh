@@ -8,7 +8,7 @@ INSTALL_LOCATION=/usr/local/bin
     exit 0
 }
 
-if [[ $$(uname -s) == "Linux" ]]; then
+if [[ $(uname -s) == "Linux" ]]; then
     if [[ $ARCH == "x86_64" ]]; then
 	ARCHIVE=btsync_glibc23_x64.tar.gz
 	URL=http://download-lb.utorrent.com/endpoint/btsync/os/linux-glibc23-x64/track/stable
