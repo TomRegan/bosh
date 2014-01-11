@@ -11,3 +11,5 @@ UNAME=$(uname -s)
     _OS=$(sed -n -e 's/^ID=//p' /etc/os-release)
 }
 export OS=$(lowercase $_OS)
+
+export ARCH=$(uname -m)

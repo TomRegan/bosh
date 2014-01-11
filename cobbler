@@ -46,7 +46,7 @@ for ARG in $ARGS; do
     }
 done
 [[ -z $REMOTE ]] || {
-    [[ $REMOTE == true ]] && $COBBLER_HOME/core/remote.sh $ARGS
+    $COBBLER_HOME/core/remote.sh $ARGS
     exit 0
 }
 

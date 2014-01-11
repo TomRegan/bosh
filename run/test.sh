@@ -6,4 +6,4 @@ else
     info "I am running on $OS"
 fi
 
-install epel
+info "Nothing else to do"
