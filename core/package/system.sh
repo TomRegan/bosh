@@ -4,7 +4,11 @@
     brew list "$1" > /dev/null 2>&1 && {
 	info "$1 is already installed"
     } || {
-	[[ $(whoami) != $(logname) ]] && sudo -u $(logname) brew install "$@"
+	[[ $(whoami) != $(logname) ]] && {
+	    sudo -u $(logname) brew install "$@"
+	} || {
+	    brew install "$@"
+	}
 	success "Installed $1"
     } || {
 	warn "Trying to detect whether $1 is installed caused an error"

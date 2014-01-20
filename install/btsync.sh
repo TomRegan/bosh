@@ -3,7 +3,7 @@
 require root
 
 INSTALL_LOCATION=/usr/local/bin
-[[ -f $INSTALL_LOCATION/btsync ]] && {
+[ -f $INSTALL_LOCATION/btsync ] && {
     info "btsync is already installed"
     exit 0
 }
@@ -22,13 +22,7 @@ else
 fi
 
 info "Installing btsync for $ARCH $OS"
-[[ -f $INSTALL_LOCATION/$ARCHIVE ]] || {
-    info "Downloading $ARCHIVE"
-    curl -L $URL -o $INSTALL_LOCATION/$ARCHIVE || {
-	fail "An error happened downloading btsync"
-	exit 1
-    }
-}
+package download $URL $INSTALL_LOCATION/$ARCHIVE
 
 info "Unpacking $ARCHIVE"
 tar -C $INSTALL_LOCATION -xzf $INSTALL_LOCATION/$ARCHIVE btsync && {

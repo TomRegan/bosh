@@ -4,7 +4,7 @@ require os fedora
 require root
 
 yum install -y npm
-curl -L https://ghost.org/zip/ghost-latest.zip -o ghost.zip
+package download https://ghost.org/zip/ghost-latest.zip ghost.zip
 unzip -uo ghost.zip -d ghost
 cd ghost/
 npm install --production

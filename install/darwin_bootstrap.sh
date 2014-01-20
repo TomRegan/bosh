@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-install essential
+package system ispell

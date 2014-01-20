@@ -29,11 +29,29 @@ install() {
     local call=$1; shift
     source $COBBLER_HOME/install/$call.sh $@
 }
+configure() {
+    local package=$1; shift 2
+    local configuration=$1
+    source $COBBLER_HOME/configure/$package.sh 2> /dev/null && {
+	$configuration 2> /dev/null
+    } || {
+	fail "No such configuration '$configuration' for $package"
+	exit 1
+    }
+}
 package() {
     local call=$1; shift
-    source $COBBLER_HOME/core/package/$call.sh $@
+    source $COBBLER_HOME/core/package/$call.sh "$@"
 }
-export -f require install package
+include() {
+    [[ -f $COBBLER_HOME/$1 ]] && source $COBBLER_HOME/$1 || {
+	[[ -f $COBBLER_HOME/$1.sh ]] && source $COBBLER_HOME/$1.sh || {
+	    fail "'include $1' failed because $1 could not be found"
+	    exit 1
+	}
+    }
+}
+export -f require install configure package include
 
 source $COBBLER_HOME/core/out.sh
 source $COBBLER_HOME/core/environment.sh
@@ -57,4 +75,5 @@ elif [[ -f $COBBLER_HOME/run/$1 ]]; then
     $COBBLER_HOME/run/$1
 else
     fail "Script not found: ${1:-(because no script was specified)}"
+    exit 1
 fi
