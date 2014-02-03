@@ -6,7 +6,7 @@ _remote() {
     }
 }
 info() {
-    echo "[${COLOUR_GREEN}info${COLOUR_RESET}]$(_remote) $@"
+    echo "[${COLOUR_BLUE}info${COLOUR_RESET}]$(_remote) $@"
 }
 warn() {
     echo "[${COLOUR_ORANGE}warn${COLOUR_RESET}]$(_remote) $@"

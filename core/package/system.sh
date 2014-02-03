@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
 
+DEBIAN_OS=(
+    ubuntu
+    raspbian
+)
+
 [[ $OS == 'darwin' ]] && {
     brew list "$1" > /dev/null 2>&1 && {
 	info "$1 is already installed"
@@ -14,7 +19,7 @@
 	warn "Trying to detect whether $1 is installed caused an error"
     }
 } || {
-    [[ $OS == 'ubuntu' ]] &&  {
+    [[ ${DEBIAN_OS[@]/$OS} != ${DEBIAN_OS[@]} ]] &&  {
 	require root
 	apt-cache policy $1 | grep 'Installed: (none)' > /dev/null 2>&1 && {
 	    apt-get install -y $1

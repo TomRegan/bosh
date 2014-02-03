@@ -31,9 +31,9 @@ install() {
 }
 configure() {
     local package=$1; shift 2
-    local configuration=$1
+    local configuration=$1; shift
     source $COBBLER_HOME/configure/$package.sh 2> /dev/null && {
-	$configuration 2> /dev/null
+	$configuration $@ 2> /dev/null
     } || {
 	fail "No such configuration '$configuration' for $package"
 	exit 1
@@ -53,27 +53,35 @@ include() {
 }
 export -f require install configure package include
 
-source $COBBLER_HOME/core/out.sh
-source $COBBLER_HOME/core/environment.sh
+init() {
+    source $COBBLER_HOME/core/out.sh
+    source $COBBLER_HOME/core/environment.sh
 
-ARGS=$@
-for ARG in $ARGS; do
-    [[ $ARG == '-r' || $ARG == '--remote' ]] && {
-	ARGS="${ARGS/-r/}";ARGS="${ARGS/--remote/}"
-	REMOTE=true
+    ARGS=$@
+    for ARG in $ARGS; do
+	[[ $ARG == '-r' || $ARG == '--remote' ]] && {
+	    ARGS="${ARGS/-r/}";ARGS="${ARGS/--remote/}"
+	    REMOTE=true
+	}
+    done
+    [[ -z $REMOTE ]] || {
+	$COBBLER_HOME/core/remote.sh $ARGS
+	exit 0
     }
-done
-[[ -z $REMOTE ]] || {
-    $COBBLER_HOME/core/remote.sh $ARGS
-    exit 0
 }
 
-warn "Cobbler is currently under development"
-if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
-    $COBBLER_HOME/run/$1.sh
-elif [[ -f $COBBLER_HOME/run/$1 ]]; then
-    $COBBLER_HOME/run/$1
-else
-    fail "Script not found: ${1:-(because no script was specified)}"
-    exit 1
-fi
+run() {
+    warn "Cobbler is currently under development"
+    if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
+	$COBBLER_HOME/run/$1.sh
+    elif [[ -f $COBBLER_HOME/run/$1 ]]; then
+	$COBBLER_HOME/run/$1
+    else
+	fail "Script not found: ${1:-(because no script was specified)}"
+	exit 1
+    fi
+}
+
+init $@
+
+run $@
