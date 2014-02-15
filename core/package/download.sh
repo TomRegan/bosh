@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 
-[[ -f $2 ]] || {
-    info "Downloading $1"
-    curl -L "$1" -o "$2" || {
-	fail "An error happened downloading ${1#*/}"
+
+URL=$1
+FILE=$2
+[ ! -f $FILE ] && {
+    info "Downloading $URL ($FILE)"
+    curl -L "$URL" -o "$FILE" || {
+	fail "An error happened downloading $FILE"
 	exit 1
     }
-    info "'$2' already exists and will not be downloaded"
+    info "Successfully downloaded '$FILE'"
+} || {
+    warn "'$FILE' already exists and will not be downloaded"
+    info $(pwd)
+    info ls -a
 }

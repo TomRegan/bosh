@@ -27,7 +27,12 @@ require() {
 }
 install() {
     local call=$1; shift
-    source $BOSH_HOME/install/$call.sh $@
+    local script=$BOSH_HOME/install/$call.sh
+    [[ ! -f $script ]] && {
+	warn "No installer for $call"
+    } || {
+	source $script $@
+    }
 }
 configure() {
     local package=$1; shift 2

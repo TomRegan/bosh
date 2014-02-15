@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 
 install bootstrap
+install transmission
+install headphones
 install btsync
 install openvpn
 configure openvpn as server
