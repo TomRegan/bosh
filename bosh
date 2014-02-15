@@ -14,25 +14,25 @@
 # limitations under the License.
 #
 
-NAME=cobbler
+NAME=bosh
 
-[[ -z $COBBLER_HOME ]] && {
-    echo -e "$NAME: set COBBLER_HOME to the cobbler install location\n\texport COBBLER_HOME=..."
+[[ -z $BOSH_HOME ]] && {
+    echo -e "$NAME: set BOSH_HOME to the bosh install location\n\texport BOSH_HOME=..."
     exit 1
 }
 
 require() {
     local call=$1; shift
-    source $COBBLER_HOME/core/require/$call.sh $@
+    source $BOSH_HOME/core/require/$call.sh $@
 }
 install() {
     local call=$1; shift
-    source $COBBLER_HOME/install/$call.sh $@
+    source $BOSH_HOME/install/$call.sh $@
 }
 configure() {
     local package=$1; shift 2
     local configuration=$1; shift
-    source $COBBLER_HOME/configure/$package.sh 2> /dev/null && {
+    source $BOSH_HOME/configure/$package.sh 2> /dev/null && {
 	$configuration $@ 2> /dev/null
     } || {
 	fail "No such configuration '$configuration' for $package"
@@ -41,11 +41,11 @@ configure() {
 }
 package() {
     local call=$1; shift
-    source $COBBLER_HOME/core/package/$call.sh "$@"
+    source $BOSH_HOME/core/package/$call.sh "$@"
 }
 include() {
-    [[ -f $COBBLER_HOME/$1 ]] && source $COBBLER_HOME/$1 || {
-	[[ -f $COBBLER_HOME/$1.sh ]] && source $COBBLER_HOME/$1.sh || {
+    [[ -f $BOSH_HOME/$1 ]] && source $BOSH_HOME/$1 || {
+	[[ -f $BOSH_HOME/$1.sh ]] && source $BOSH_HOME/$1.sh || {
 	    fail "'include $1' failed because $1 could not be found"
 	    exit 1
 	}
@@ -54,8 +54,8 @@ include() {
 export -f require install configure package include
 
 init() {
-    source $COBBLER_HOME/core/out.sh
-    source $COBBLER_HOME/core/environment.sh
+    source $BOSH_HOME/core/out.sh
+    source $BOSH_HOME/core/environment.sh
 
     ARGS=$@
     for ARG in $ARGS; do
@@ -65,17 +65,17 @@ init() {
 	}
     done
     [[ -z $REMOTE ]] || {
-	$COBBLER_HOME/core/remote.sh $ARGS
+	$BOSH_HOME/core/remote.sh $ARGS
 	exit 0
     }
 }
 
 run() {
-    warn "Cobbler is currently under development"
-    if [[ -f $COBBLER_HOME/run/$1.sh ]]; then
-	$COBBLER_HOME/run/$1.sh
-    elif [[ -f $COBBLER_HOME/run/$1 ]]; then
-	$COBBLER_HOME/run/$1
+    warn "Bosh is currently under development"
+    if [[ -f $BOSH_HOME/run/$1.sh ]]; then
+	$BOSH_HOME/run/$1.sh
+    elif [[ -f $BOSH_HOME/run/$1 ]]; then
+	$BOSH_HOME/run/$1
     else
 	fail "Script not found: ${1:-(because no script was specified)}"
 	exit 1

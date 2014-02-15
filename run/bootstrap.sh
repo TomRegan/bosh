@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-[ -f $COBBLER_HOME/install/${OS}_bootstrap.sh ] && {
+[ -f $BOSH_HOME/install/${OS}_bootstrap.sh ] && {
     info "including ${OS} bootstrap script"
     install ${OS}_bootstrap
 } || {

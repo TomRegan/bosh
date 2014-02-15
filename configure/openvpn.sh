@@ -9,7 +9,7 @@ server() {
 	warn "Created a backup: $OUTPUT_PATH.bak"
     }
     cat > $OUTPUT_PATH <<EOF
-;;; Written by Cobbler on $(date -u)
+;;; Written by Bosh on $(date -u)
 port 1194
 proto udp
 dev tun

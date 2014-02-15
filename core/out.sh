@@ -1,8 +1,8 @@
-source $COBBLER_HOME/core/colours.sh
+source $BOSH_HOME/core/colours.sh
 
 _remote() {
-    [[ ! -z $COBBLER_REMOTE ]] && {
-	echo "${COLOUR_YELLOW}@${COBBLER_REMOTE}${COLOUR_RESET}"
+    [[ ! -z $BOSH_REMOTE ]] && {
+	echo "${COLOUR_YELLOW}@${BOSH_REMOTE}${COLOUR_RESET}"
     }
 }
 info() {
