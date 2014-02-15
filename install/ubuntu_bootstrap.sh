@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-package system build-essential
-package system git
-package system unzip
+require root; apt-get update
+package native build-essential
+package native git
+package native unzip

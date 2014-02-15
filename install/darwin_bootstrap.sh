@@ -2,4 +2,4 @@
 
 include 'install/brewcask'
 
-package system ispell
+package native ispell

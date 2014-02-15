@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-package system npm
+package native npm

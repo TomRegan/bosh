@@ -1,3 +1,3 @@
 #! /usr/bin/env base
 
-package system emacs-nox
+package native emacs-nox

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-package system mosh
+package native mosh

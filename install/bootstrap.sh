@@ -7,6 +7,6 @@
     warn "no $OS bootstrap script found"
 }
 
-package system emacs
-package system tree
-package system mosh
+package native emacs
+package native tree
+package native mosh

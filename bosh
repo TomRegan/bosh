@@ -73,9 +73,19 @@ init() {
 run() {
     warn "Bosh is currently under development"
     if [[ -f $BOSH_HOME/run/$1.sh ]]; then
-	$BOSH_HOME/run/$1.sh
+	if [ -x $BOSH_HOME/run/$1.sh ]; then
+	    $BOSH_HOME/run/$1.sh
+	else
+	    fail "$1.sh is not executable"
+	    exit 1
+	fi
     elif [[ -f $BOSH_HOME/run/$1 ]]; then
-	$BOSH_HOME/run/$1
+	if [ -x $BOSH_HOME/run/$1 ]; then
+	    $BOSH_HOME/run/$1
+	else
+	    fail "$1 is not executable"
+	    exit 1
+	fi
     else
 	fail "Script not found: ${1:-(because no script was specified)}"
 	exit 1
