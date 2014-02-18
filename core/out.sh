@@ -17,4 +17,7 @@ fail() {
 success() {
     echo "[${COLOUR_GREEN} ok ${COLOUR_RESET}]$(_remote) $@"
 }
-export -f info warn fail success _remote
+skip() {
+    echo "[${COLOUR_YELLOW}skip${COLOUR_RESET}]$(_remote) $@"
+}
+export -f info warn fail success skip _remote

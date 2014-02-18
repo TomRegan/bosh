@@ -8,5 +8,5 @@ fi
 
 install openvpn
 configure openvpn as server
-configure iptables for natforward 10.8.0.0/24
+configure firewall for natforward 10.8.0.0/24
 info "Nothing else to do"
