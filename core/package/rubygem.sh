@@ -6,5 +6,5 @@
 	fail "Installation of $1 failed"
     }
 } || {
-    info "$1 is already installed"
+    skip "$1 is already installed"
 }

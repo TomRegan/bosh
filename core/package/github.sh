@@ -3,9 +3,8 @@
 INSTALL_DIR=$2
 NAME=${1#*/}
 
-info $INSTALL_DIR/$NAME
 [ -d $INSTALL_DIR/$NAME ] && {
-    info "$NAME is already installed (in $INSTALL_DIR)"
+    skip "$NAME is already installed"
 } || {
     info "Installing $NAME"
     which unzip >/dev/null 2>&1 || {

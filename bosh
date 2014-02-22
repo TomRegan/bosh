@@ -64,9 +64,9 @@ init() {
 
     ARGS=$@
     for ARG in $ARGS; do
-	[[ $ARG == '-r' || $ARG == '--remote' ]] && {
-	    ARGS="${ARGS/-r/}";ARGS="${ARGS/--remote/}"
+	[[ $ARG =~ [[:alnum:]]+@[[:alnum:]]+ ]] && {
 	    REMOTE=true
+	    break
 	}
     done
     [[ -z $REMOTE ]] || {

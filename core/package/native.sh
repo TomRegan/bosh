@@ -7,7 +7,7 @@ DEBIAN_OS=(
 
 [[ $OS == 'darwin' ]] && {
     brew list "$1" > /dev/null 2>&1 && {
-	info "$1 is already installed"
+	skip "$1 is already installed"
     } || {
 	[[ $(whoami) != $(logname) ]] && {
 	    sudo -u $(logname) brew install "$@"
@@ -25,7 +25,7 @@ DEBIAN_OS=(
 	    apt-get install -y $1
 	    success "Installed $1"
 	} || {
-	    info "$1 is already installed"
+	    skip "$1 is already installed"
 	}
     } || {
 	fail "Package installation is not supported on $OS"

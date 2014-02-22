@@ -2,7 +2,7 @@
 
 A provisioning tool that uses bash.
 
-![bosh](http://i.imgur.com/2E5GqCR.png)
+![bosh](http://i.imgur.com/3qtzFj6.png)
 
 ## Usage / Structure
 
@@ -20,9 +20,9 @@ Where `script` is the name of a script in the `run/` directory.
 ### Remote Install
 
 Once bosh is installed on your workstation, you can deploy it and run
-scripts on remote hosts using the `-r` (`--remote`) option.
+scripts on remote hosts using ssh.
 
-    ./bosh -r|--remote [user@]<hostname> <script>
+    ./bosh user@hostname <script>
 
 ### Directory Layout
 
@@ -42,19 +42,6 @@ scripts on remote hosts using the `-r` (`--remote`) option.
 * `core/package` package management module
 * `install` user-scripts to install packages
 * `run` user-scripts
-
-## Extending / Developing
-
-### API
-
-This isn't complete; it's best to read the scripts at the moment.
-
-`require` causes bosh to fail if conditions don't match
-* `root` fail if not root
-* `os <name>` fail if different os. If linux, OS name is calculated by reading
-the ID property from `/etc/os-version`
-`install`
-* Takes a package name
 
 ### Bugs
 

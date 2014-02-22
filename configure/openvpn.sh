@@ -8,6 +8,7 @@ server() {
 	cp $OUTPUT_PATH $OUTPUT_PATH.bak
 	warn "Created a backup: $OUTPUT_PATH.bak"
     }
+    info "Writing $OUTPUT_PATH"
     cat > $OUTPUT_PATH <<EOF
 ;;; Written by Bosh on $(date -u)
 port 1194
