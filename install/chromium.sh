@@ -2,7 +2,7 @@
 
 warn "This script does not work on linux"
 if [[ $(uname -s) == 'Linux' ]]; then
-    plaftorm='Linux'
+    platform='Linux'
 elif [[ $OS == 'darwin' ]]; then
     platform='Mac'
 else
