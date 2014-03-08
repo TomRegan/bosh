@@ -33,5 +33,5 @@ INSTALL_LOCATION=/usr/local/bin
     success "Installed btsync for $ARCH $OS"
 
 } || {
-    info "btsync is already installed"
+    skip "btsync is already installed"
 }

@@ -1,12 +1,11 @@
 #! /usr/bin/env bash
 
-[ -z $IPTABLES_BOSH ] && {
-    IPTABLES_BOSH=$(date "+%s")
+update() {
     info "Flushing existing firewall rules"
     iptables -F
 }
 
-_rule() {
+_apply() {
     local directive=$@
     iptables-save | grep -i -- "$directive" 2>&1 >/dev/null && {
 	skip "Firewall rule already exists: '$directive'"
@@ -27,20 +26,20 @@ natforward() {
 	echo 1 > /proc/sys/net/ipv4/ip_forward
     }
     local directive=( -t nat -A POSTROUTING -s $1 -o eth0 -j MASQUERADE )
-    _rule ${directive[@]}
+    _apply ${directive[@]}
 }
 
 _allow_interface() {
     local interface=$1
     info "Updating firewall to allow all traffic to $interface"
     local directive=( -A INPUT -i $1 -j ACCEPT )
-    _rule ${directive[@]}
+    _apply ${directive[@]}
 }
 
 _allow_established() {
     info "Updating firewall to allow established connections"
     local directive=( -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT )
-    _rule ${directive[@]}
+    _apply ${directive[@]}
 }
 
 allow() {
@@ -64,12 +63,12 @@ allow() {
     [ ! -z $limit ] && {
 	info "└── limiting rate to $tries connections every $seconds seconds"
 	local directive_a=( -A INPUT -p $proto -m $proto --dport $dport -m state --state NEW -m recent --set --name DEFAULT --rsource )
-	_rule ${directive_a[@]}
+	_apply ${directive_a[@]}
 	local directive_b=( -A INPUT -p $proto -m $proto --dport $dport -m state --state NEW -m recent --update --seconds $seconds --hitcount $tries --name DEFAULT --rsource -j DROP )
-	_rule ${directive_b[@]}
+	_apply ${directive_b[@]}
     }
     local directive=( -A INPUT -p $proto -m state --state NEW -m $proto --dport $dport -j ACCEPT  )
-    _rule ${directive[@]}
+    _apply ${directive[@]}
 }
 
 drop() {
@@ -77,7 +76,7 @@ drop() {
     [[ $type == "ping" ]] && {
 	info "Updating firewall to drop pings"
 	local directive=( -A INPUT -p icmp -m icmp --icmp-type 8 -j DROP )
-	_rule ${directive[@]}
+	_apply ${directive[@]}
 	return
     }
     [[ $type == all ]] && {
@@ -87,10 +86,10 @@ drop() {
 	_allow_established
 	info "Updating firewall policy to drop all $chain"
 	local directive=( -P $CHAIN DROP  )
-	_rule ${directive[@]}
+	_apply ${directive[@]}
     }
 }
 
-export -f allow drop natforward
+export -f allow drop natforward update
 # private
-export -f _allow_interface _allow_established _rule
+export -f _allow_interface _allow_established _apply

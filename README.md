@@ -22,7 +22,7 @@ Where `script` is the name of a script in the `run/` directory.
 Once bosh is installed on your workstation, you can deploy it and run
 scripts on remote hosts using ssh.
 
-    ./bosh user@hostname <script>
+    ./bosh [user@hostname] <script>
 
 ### Directory Layout
 
@@ -41,7 +41,7 @@ scripts on remote hosts using ssh.
 * `core/require` the `require` module
 * `core/package` package management module
 * `install` user-scripts to install packages
-* `run` user-scripts
+* `run` user-scripts which combine install and configure scripts
 
 ### Bugs
 
