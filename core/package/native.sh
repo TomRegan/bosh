@@ -22,8 +22,7 @@ DEBIAN_OS=(
     [[ ${DEBIAN_OS[@]/$OS} != ${DEBIAN_OS[@]} ]] &&  {
 	require root
 	apt-cache policy $1 | grep 'Installed: (none)' > /dev/null 2>&1 && {
-	    apt-get install -y $1
-	    success "Installed $1"
+	    apt-get install -y $1 && success "Installed $1"
 	} || {
 	    skip "$1 is already installed"
 	}
