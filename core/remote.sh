@@ -11,10 +11,10 @@
 "tar xfz - -C bosh;"\
 "[[ -f bosh/bosh ]] && bosh/bosh $2" || {
         fail "Remote script '$2' failed on ${1#*@}"
-        exit
+        exit 1
     }
 } || {
     fail "Expected a valid hostname and script"
-    exit
+    exit 1
 }
 success "Remote script '$2' completed on ${1#*@}"
