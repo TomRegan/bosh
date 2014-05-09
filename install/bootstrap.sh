@@ -7,6 +7,20 @@
     warn "no $OS bootstrap script found"
 }
 
+[ -f $BOSH_HOME/configuration/${OS}.sh ] && {
+    info "including ${OS} desktop configuration"
+    configure ${OS} as desktop
+} || {
+    warn "no $OS configuration found"
+}
+
+package native colordiff
 package native emacs
-package native tree
+package native maven
 package native mosh
+package native nmap
+package native pass
+package native tmux
+package native tree
+package native unrar
+package native weechat

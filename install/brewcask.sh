@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-brew tap phinze/cask && brew install brew-cask || {
+brew tap phinze/cask || {
     fail "Failed to install brew-cask"
     exit 1
 }
-info "Installed brew-cask"
+
+package native brew-cask
