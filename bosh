@@ -17,8 +17,12 @@
 NAME=bosh
 
 [[ -z $BOSH_HOME ]] && {
-    echo -e "$NAME: set BOSH_HOME to the bosh install location\n\texport BOSH_HOME=..."
-    exit 1
+    [[ -f bosh ]] && {
+        export BOSH_HOME=$PWD
+    } || {
+        echo -e "$NAME: set BOSH_HOME to the bosh install location\n\texport BOSH_HOME=..."
+        exit 1
+    }
 }
 
 require() {
