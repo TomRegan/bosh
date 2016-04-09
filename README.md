@@ -2,7 +2,9 @@
 
 A provisioning tool that uses bash.
 
-![bosh](http://i.imgur.com/3qtzFj6.png)
+<p align=center>
+<img src="http://i.imgur.com/3qtzFj6.png" />
+</p>
 
 ## Usage / Structure
 
