@@ -6,7 +6,8 @@ else
     info "I am running on $OS"
 fi
 
-install openvpn
-configure openvpn as server
-configure firewall for natforward 10.8.0.0/24
+install desktop
+#install openvpn
+#configure openvpn as server
+#configure firewall for natforward 10.8.0.0/24
 info "Nothing else to do"

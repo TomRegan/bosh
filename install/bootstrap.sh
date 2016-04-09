@@ -23,4 +23,4 @@ package native pass
 package native tmux
 package native tree
 package native unrar
-package native weechat
+package native irssi
