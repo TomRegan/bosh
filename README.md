@@ -42,14 +42,14 @@ scripts on remote hosts using ssh.
 
 
 * `libexec` internal scripts
-** `bosh` is the core program
-** `core` modules which provide functions to bosh
-** `core/require` the `require` module
-** `core/package` package management module
+    * `bosh` is the core program
+    * `core` modules which provide functions to bosh
+    * `core/require` the `require` module
+    * `core/package` package management module
 * `etc` configuration
-** `deploy` scripts to install packages
-** `post_deploy` scripts to configure installed packages
-** `scripts` run-scripts which combine install and configure scripts
+    * `deploy` scripts to install packages
+    * `post_deploy` scripts to configure installed packages
+    * `scripts` run-scripts which combine install and configure scripts
 * `lib` ancillary scripts
 * `bin` entry point
 
