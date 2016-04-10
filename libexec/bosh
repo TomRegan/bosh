@@ -25,79 +25,90 @@ NAME=bosh
     }
 }
 
-require() {
+
+function require {
     local call=$1; shift
     source $BOSH_HOME/core/require/$call.sh $@
 }
-install() {
+
+
+function install {
     local call=$1; shift
     local script=$BOSH_HOME/install/$call.sh
     [[ ! -f $script ]] && {
-	warn "No installer for $call"
+        warn "No installer for $call"
     } || {
-	source $script $@
+        source $script $@
     }
 }
-configure() {
+
+
+function configure {
     local package=$1; shift 2
     local configuration=$1; shift
     source $BOSH_HOME/configure/$package.sh 2> /dev/null && {
-	$configuration $@ 2> /dev/null
+        $configuration $@ 2> /dev/null
     } || {
-	fail "No such configuration '$configuration' for $package"
-	exit 1
+        fail "No such configuration '$configuration' for $package"
+        exit 1
     }
 }
-package() {
+
+
+function package {
     local call=$1; shift
     source $BOSH_HOME/core/package/$call.sh "$@"
 }
-include() {
+
+
+function include {
     [[ -f $BOSH_HOME/$1 ]] && source $BOSH_HOME/$1 || {
-	[[ -f $BOSH_HOME/$1.sh ]] && source $BOSH_HOME/$1.sh || {
-	    fail "'include $1' failed because $1 could not be found"
-	    exit 1
-	}
+        [[ -f $BOSH_HOME/$1.sh ]] && source $BOSH_HOME/$1.sh || {
+            fail "'include $1' failed because $1 could not be found"
+            exit 1
+        }
     }
 }
 export -f require install configure package include
 
-init() {
+
+function init {
     source $BOSH_HOME/core/out.sh
     source $BOSH_HOME/core/environment.sh
 
     ARGS=$@
     for ARG in $ARGS; do
-	[[ $ARG =~ [[:alnum:]]+@[[:alnum:]]+ ]] && {
-	    REMOTE=true
-	    break
-	}
+        [[ $ARG =~ [[:alnum:]]+@[[:alnum:]]+ ]] && {
+            REMOTE=true
+            break
+        }
     done
     [[ -z $REMOTE ]] || {
-	$BOSH_HOME/core/remote.sh $ARGS
-	exit 0
+        $BOSH_HOME/core/remote.sh $ARGS
+        exit 0
     }
 }
 
-run() {
+
+function run {
     warn "Bosh is currently under development"
     if [[ -f $BOSH_HOME/run/$1.sh ]]; then
-	if [ -x $BOSH_HOME/run/$1.sh ]; then
-	    $BOSH_HOME/run/$1.sh
-	else
-	    fail "$1.sh is not executable"
-	    exit 1
-	fi
+        if [ -x $BOSH_HOME/run/$1.sh ]; then
+            $BOSH_HOME/run/$1.sh
+        else
+            fail "$1.sh is not executable"
+            exit 1
+        fi
     elif [[ -f $BOSH_HOME/run/$1 ]]; then
-	if [ -x $BOSH_HOME/run/$1 ]; then
-	    $BOSH_HOME/run/$1
-	else
-	    fail "$1 is not executable"
-	    exit 1
-	fi
+        if [ -x $BOSH_HOME/run/$1 ]; then
+            $BOSH_HOME/run/$1
+        else
+            fail "$1 is not executable"
+            exit 1
+        fi
     else
-	fail "Script not found: ${1:-(because no script was specified)}"
-	exit 1
+        fail "Script not found: ${1:-(because no script was specified)}"
+        exit 1
     fi
 }
 
