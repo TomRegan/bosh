@@ -11,7 +11,7 @@ A provisioning tool that uses bash.
 ### Install
 
 * Clone or unpack the files from the [bosh repository](https://github.com/TomRegan/bosh)
-* Set `BOSH_HOME` to the base directory of the bosh  install
+* Set `BOSH_HOME` to the base directory of the bosh install
 
 ### Run
 
@@ -29,21 +29,29 @@ scripts on remote hosts using ssh.
 ### Directory Layout
 
     .
-    |-- bosh
-    |-- configure/
-    |-- core/
-    |   |-- require/
-	|   `-- package/
-	|-- install/
-    `-- run/
+    |-- bin/
+    |-- etc/
+    |   |-- deploy/
+    |   |-- post_deploy/
+    |   `-- scripts
+    |-- lib/
+    `-- libexec/
+        `-- core/
+            |-- require/
+            `-- package/
 
-* `bosh` is the core program
-* `configure` user scripts to configure installed packages
-* `core` modules which provide functions to bosh
-* `core/require` the `require` module
-* `core/package` package management module
-* `install` user-scripts to install packages
-* `run` user-scripts which combine install and configure scripts
+
+* `libexec` internal scripts
+** `bosh` is the core program
+** `core` modules which provide functions to bosh
+** `core/require` the `require` module
+** `core/package` package management module
+* `etc` configuration
+** `deploy` scripts to install packages
+** `post_deploy` scripts to configure installed packages
+** `scripts` run-scripts which combine install and configure scripts
+* `lib` ancillary scripts
+* `bin` entry point
 
 ### Bugs
 
