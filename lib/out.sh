@@ -1,8 +1,8 @@
-source $BOSH_HOME/core/colours.sh
+source $BOSH_HOME/lib/colours.sh
 
 _remote() {
     [[ ! -z $BOSH_REMOTE ]] && {
-	echo "${COLOUR_YELLOW}@${BOSH_REMOTE}${COLOUR_RESET}"
+        echo "${COLOUR_YELLOW}@${BOSH_REMOTE}${COLOUR_RESET}"
     }
 }
 info() {

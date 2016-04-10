@@ -15,26 +15,39 @@
 #
 
 NAME=bosh
+export BOSH_HOME=$([[ -z $BOSH_HOME ]] && {
+                # take a guess at BOSH_HOME if the user hasn't set it
+                CCD=${PWD}/${0}
+                # did you give me the install location in the path?
+                [[ ${CCD##*/} == $NAME ]] && {
+                    BOSH_HOME=${PWD}/${0%/*}
+                    # but wait! maybe we're in a leaf directory...
+                    [[ ${BOSH_HOME##*/} == "bin" ]] && {
+                        # I thought so! let's strip the 'bin' off
+                        BOSH_HOME=${BOSH_HOME%/*}
+                    } || {
+                        echo ""
+                    }
+                    echo $BOSH_HOME
+                }
+} || echo $BOSH_HOME)
 
 [[ -z $BOSH_HOME ]] && {
-    [[ -f bosh ]] && {
-        export BOSH_HOME=$PWD
-    } || {
-        echo -e "$NAME: set BOSH_HOME to the bosh install location\n\texport BOSH_HOME=..."
-        exit 1
-    }
+    echo -e "$NAME: set BOSH_HOME to the bosh install location\n\texport BOSH_HOME=..."
+    exit 1
 }
+export BOSH_DEPLOY=$BOSH_HOME/etc/deploy
 
 
 function require {
     local call=$1; shift
-    source $BOSH_HOME/core/require/$call.sh $@
+    source $BOSH_HOME/libexec/core/require/$call.sh $@
 }
 
 
 function install {
     local call=$1; shift
-    local script=$BOSH_HOME/install/$call.sh
+    local script=$BOSH_DEPLOY/$call.sh
     [[ ! -f $script ]] && {
         warn "No installer for $call"
     } || {
@@ -46,7 +59,7 @@ function install {
 function configure {
     local package=$1; shift 2
     local configuration=$1; shift
-    source $BOSH_HOME/configure/$package.sh 2> /dev/null && {
+    source $BOSH_HOME/etc/post_deploy/$package.sh 2> /dev/null && {
         $configuration $@ 2> /dev/null
     } || {
         fail "No such configuration '$configuration' for $package"
@@ -57,7 +70,7 @@ function configure {
 
 function package {
     local call=$1; shift
-    source $BOSH_HOME/core/package/$call.sh "$@"
+    source $BOSH_HOME/libexec/core/package/$call.sh "$@"
 }
 
 
@@ -73,8 +86,8 @@ export -f require install configure package include
 
 
 function init {
-    source $BOSH_HOME/core/out.sh
-    source $BOSH_HOME/core/environment.sh
+    source $BOSH_HOME/lib/out.sh
+    source $BOSH_HOME/lib/environment.sh
 
     ARGS=$@
     for ARG in $ARGS; do
@@ -84,7 +97,7 @@ function init {
         }
     done
     [[ -z $REMOTE ]] || {
-        $BOSH_HOME/core/remote.sh $ARGS
+        $BOSH_HOME/lib/remote.sh $ARGS
         exit 0
     }
 }
@@ -92,22 +105,33 @@ function init {
 
 function run {
     warn "Bosh is currently under development"
-    if [[ -f $BOSH_HOME/run/$1.sh ]]; then
-        if [ -x $BOSH_HOME/run/$1.sh ]; then
-            $BOSH_HOME/run/$1.sh
+    if [[ -f $BOSH_HOME/etc/scripts/$1.bash ]]; then
+        if [ -x $BOSH_HOME/etc/scripts/$1.bash ]; then
+            $BOSH_HOME/etc/scripts/$1.bash
         else
             fail "$1.sh is not executable"
             exit 1
         fi
-    elif [[ -f $BOSH_HOME/run/$1 ]]; then
-        if [ -x $BOSH_HOME/run/$1 ]; then
+    elif [[ -f $BOSH_HOME/etc/scripts/$1.sh ]]; then
+        if [ -x $BOSH_HOME/etc/scripts/$1.sh ]; then
+            $BOSH_HOME/etc/scripts/$1.sh
+        else
+            fail "$1.sh is not executable"
+            exit 1
+        fi
+    elif [[ -f $BOSH_HOME/etc/scripts/$1 ]]; then
+        if [ -x $BOSH_HOME/etc/scripts/$1 ]; then
             $BOSH_HOME/run/$1
         else
             fail "$1 is not executable"
             exit 1
         fi
     else
-        fail "Script not found: ${1:-(because no script was specified)}"
+        [[ -z $1 ]] && {
+            fail "No script was specified"
+        } || {
+            fail "Script not found: $1"
+        }
         exit 1
     fi
 }
