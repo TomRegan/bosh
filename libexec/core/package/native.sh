@@ -10,10 +10,12 @@ DEBIAN_OS=(
         skip "$1 is already installed"
     } || {
         [[ $(whoami) != $(logname) ]] && {
+            info "Beginning $1 install"
             sudo -u $(logname) brew install "$@" > /dev/null 2>&1 || {
                 sudo -u $(logname) brew cask install  "$@" > /dev/null 2>&1
             }
         } || {
+            info "Beginning $1 install"
             brew install "$@" > /dev/null 2>&1 || {
                 brew cask install > /dev/null 2>&1 "$@"
             }
